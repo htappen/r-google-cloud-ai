@@ -15,6 +15,8 @@ In order to get RStudio to comply with these requirements, we add an NGINX rever
 gcloud builds submit . -t gcr.io/<YOUR PROJECT>/<YOUR CONTAINER NAME>:latest
 ```
 
+*Note*: you only need to do this once! Every Notebook instance from here on out will use the same Docker image.
+
 1. Start a new Notebook instance. Make sure to choose a [custom container](https://cloud.google.com/ai-platform/notebooks/docs/custom-container). Pass in the gcr.io address you created earlier.
 
 ## Customization
