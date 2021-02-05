@@ -37,7 +37,7 @@ install_train_package <- function(gcs_uri) {
     
     system(cmd)
 
-    devtools::install(file.name, dependencies=TRUE)
+    devtools::install_local(file.name, dependencies=TRUE)
 }
 
 run_training <- function(fn_name, args) {
@@ -47,7 +47,6 @@ run_training <- function(fn_name, args) {
 
 main <- function() {
     args <- parse_bootstrap_args()
-    print(args)
     install_train_package(args$package)
     run_training(args$fn_name, args$leftovers)
 }
