@@ -20,4 +20,4 @@ gcloud builds submit . -t gcr.io/<YOUR PROJECT>/<YOUR CONTAINER NAME>:latest
 
 1. Start a training job, specifying the container you created earlier. In the "args" section of the job, set the first two arguments to the list following. Add any other necessary arguments after
     1. The path to your package
-    1. The fully namespaced name of the function that runs your script (i.e. "<YOUR PACKAGE NAME>::<YOUR FUNCTION NAME>)
+    1. The fully namespaced name of the function that runs your script (i.e. `<YOUR PACKAGE NAME>::<YOUR FUNCTION NAME>`)

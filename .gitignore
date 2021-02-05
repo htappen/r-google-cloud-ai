@@ -1,3 +1,5 @@
 workspace*
 *pyc*
 *DS_Store*
+utils*
+*gz

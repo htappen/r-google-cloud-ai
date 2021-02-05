@@ -1,4 +1,3 @@
-library('googleCloudStorageR')
 library('stringr')
 
 call_namespace_fn <- function(what, args, ...) {
@@ -16,22 +15,29 @@ call_namespace_fn <- function(what, args, ...) {
 
 parse_bootstrap_args <- function() {
     all.args <- commandArgs(trailingOnly=TRUE)
+
     list(
-        package=all.args[0], 
-        fn_name=all.args[1],
-        leftovers=all.args[2:length(all.args)]
+        package=all.args[1], 
+        fn_name=all.args[2],
+        leftovers=all.args[3:length(all.args)]
     )
 }
 
 install_train_package <- function(gcs_uri) {
     file.name <- str_replace(
         gcs_uri,
-        dirname(gcs_uri),
+        paste(dirname(gcs_uri), '/', sep=''),
         '')
-    
-    gcs_get_object(gcs_uri, saveToDisk = file.name)
 
-    install.packages(file.name, repos=NULL)
+    cmd <- paste(
+      "gsutil cp",
+      gcs_uri,
+      file.name
+    )
+    
+    system(cmd)
+
+    devtools::install(file.name, dependencies=TRUE)
 }
 
 run_training <- function(fn_name, args) {
@@ -41,6 +47,7 @@ run_training <- function(fn_name, args) {
 
 main <- function() {
     args <- parse_bootstrap_args()
+    print(args)
     install_train_package(args$package)
     run_training(args$fn_name, args$leftovers)
 }

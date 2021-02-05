@@ -1,3 +1,11 @@
+"""
+Script to run when the container starts.
+
+RStudio requires cookies, which aren't supported by the Notebooks inverting proxy.
+This script creates an nginx config which sends fake cookies back RStudio with
+every request. That way, RStudio always runs.
+"""
+
 import hashlib
 import hmac
 import secrets
@@ -7,11 +15,15 @@ import uuid
 
 from base64 import standard_b64encode as b64encode
 
+# These values come from the RStudio open source code
 USERNAME = 'rstudio'
 USERLIST = '9c16856330a7400cbbbba228392a5d83'
 EXPIRES = 'Wed, 30 Dec 2037 23:59:59 GMT'
 
 def base64_hash(value, key):
+    """
+    Hashes the input value then base64 encodes it.
+    """
     hasher = hmac.new(
         key.encode('utf8'), 
         msg=value.encode('utf8'),

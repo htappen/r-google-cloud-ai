@@ -1,5 +1,6 @@
 FROM rocker/rstudio:latest
 
+# Install nginx to be a reverse proxy
 RUN \
   apt-get update && \
   apt install -y curl gnupg2 ca-certificates lsb-release && \
@@ -14,6 +15,8 @@ COPY startup.sh /root/startup.sh
 COPY make_config.py /root/make_config.py
     
 EXPOSE 8080
+
+# Only single tenant RStudio is supported. Use Cloud IAM for auth.
 ENV DISABLE_AUTH true
 
 CMD ["/bin/bash", "/root/startup.sh"]
