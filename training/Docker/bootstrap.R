@@ -15,7 +15,6 @@ call_namespace_fn <- function(what, args, ...) {
 
 parse_bootstrap_args <- function() {
     all.args <- commandArgs(trailingOnly=TRUE)
-
     list(
         package=all.args[1], 
         fn_name=all.args[2],
@@ -40,15 +39,10 @@ install_train_package <- function(gcs_uri) {
     devtools::install_local(file.name, dependencies=TRUE)
 }
 
-run_training <- function(fn_name, args) {
-    fn <- call_namespace_fn(fn_name)
-    fn(args)
-}
-
 main <- function() {
     args <- parse_bootstrap_args()
     install_train_package(args$package)
-    run_training(args$fn_name, args$leftovers)
+    call_namespace_fn(args$fn_name, args$leftovers)
 }
 
 main()
