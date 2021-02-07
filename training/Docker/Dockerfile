@@ -1,5 +1,6 @@
 FROM rocker/r-ver:latest
 
+# Install GCP SDK
 RUN apt-get update && apt-get install -y \
     curl apt-transport-https ca-certificates gnupg apt-utils \
     && echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] http://packages.cloud.google.com/apt cloud-sdk main" \
@@ -9,10 +10,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get update -y \
     && apt-get install google-cloud-sdk -y
 
+# Install the bootstrap script for loading packages
 RUN Rscript \
-    -e 'install.packages(c( \
-    "devtools", \
-    "stringr"))'
+    -e 'install.packages("stringr"))'
 
 COPY bootstrap.R /root/bootstrap.R
 WORKDIR /root/

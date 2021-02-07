@@ -1,13 +1,11 @@
-library("optparse")
-
 get_config <- function(args) {
-    parser <- OptionParser()
-    parser <- add_option(
+    parser <- optparse::OptionParser()
+    parser <- optparse::add_option(
         parser,
         "--job_dir",
         type="character",
         help="Location to write output files")
-    parse_args(parser, args=args)
+    optparse::parse_args(parser, args=args)
 }
 
 upload_model <- function(model, file.name, dest) {
