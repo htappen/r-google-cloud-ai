@@ -1,11 +1,7 @@
 get_config <- function(args) {
-    parser <- optparse::OptionParser()
-    parser <- optparse::add_option(
-        parser,
-        "--job-dir",
-        type="character",
-        help="Location to write output files")
-    optparse::parse_args(parser, args=args)
+    list(
+        model_dir=Sys.getenv("AIP_MODEL_DIR")
+    )
 }
 
 upload_model <- function(model, file.name, dest) {
@@ -27,5 +23,5 @@ train_model <- function() {
 main <- function(args) {
     cfg <- get_config(args)
     model <- train_model()
-    upload_model(model, 'model.Rda', cfg$job_dir)
+    upload_model(model, 'model.Rda', cfg$model_dir)
 }

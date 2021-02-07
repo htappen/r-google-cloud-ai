@@ -12,7 +12,7 @@ This repo contains a base Docker image that can be used for every training run. 
 gcloud builds submit . -t gcr.io/<YOUR PROJECT>/<YOUR CONTAINER NAME>:latest
 ```
 
-*Note*: you only need to do this once! Every training from here on out will use the same Docker image.
+*Note*: you only need to do this once for ALL of notebooks/training/prediction! Every function from here on out will use the same Docker image.
 
 1. Package your training application as a proper R package. Make sure to `export` a function that runs the actual training procedure.
 
