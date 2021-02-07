@@ -2,7 +2,7 @@ get_config <- function(args) {
     parser <- optparse::OptionParser()
     parser <- optparse::add_option(
         parser,
-        "--job_dir",
+        "--job-dir",
         type="character",
         help="Location to write output files")
     optparse::parse_args(parser, args=args)
