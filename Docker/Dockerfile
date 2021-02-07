@@ -11,7 +11,6 @@ RUN \
   apt-get install -y nginx
 
 COPY nginx.conf.template /root/nginx.conf.template
-COPY startup.sh /root/startup.sh
 COPY make_config.py /root/make_config.py
     
 EXPOSE 8080
@@ -34,6 +33,7 @@ ENV DISABLE_AUTH true
 RUN Rscript \
     -e 'install.packages(c("stringr", "plumber", "jsonlite"))'
 
+COPY startup.sh /root/startup.sh
 COPY bootstrap.R /root/bootstrap.R
 
 WORKDIR /root
