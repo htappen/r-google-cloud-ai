@@ -34,5 +34,7 @@ ENV DISABLE_AUTH true
 RUN Rscript \
     -e 'install.packages(c("stringr", "plumber", "jsonlite"))'
 
+COPY bootstrap.R /root/bootstrap.R
+
 WORKDIR /root
 CMD ["/bin/bash", "/root/startup.sh"]
