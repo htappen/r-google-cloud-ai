@@ -30,5 +30,9 @@ RUN git clone https://github.com/rocker-org/rocker-versioned2.git /root/rocker/ 
 # Only single tenant RStudio is supported. Use Cloud IAM for auth.
 ENV DISABLE_AUTH true
 
+# Add dependencies for the bootstrap files
+RUN Rscript \
+    -e 'install.packages(c("stringr", "plumber", "jsonlite"))'
+
 WORKDIR /root
 CMD ["/bin/bash", "/root/startup.sh"]

@@ -15,13 +15,24 @@ call_namespace_fn <- function(what, args, ...) {
 }
 
 parse_bootstrap_args <- function() {
-    # TODO: replace with env variables
     all.args <- commandArgs(trailingOnly=TRUE)
+    container.mode <- tolower(all.args[1])
+    package.list <- strsplit(all.args[2], ',')
+    if (container.mode == "predict") {
+        init.fn.name <- all.args[2]
+        run.fn.name <- all.args[3]
+        leftovers <- all.args[4:length(all.args)]
+    } else {
+        init.fn.name <- NA
+        run.fn.name <- all.args[2]
+        leftovers <- all.args[3:length(all.args)]
+    }
     list(
-        package=all.args[1], 
-        init_fn_name=all.args[2],
-        run_fn_name=all.args[3],
-        leftovers=all.args[4:length(all.args)]
+        container_mode=container.mode,
+        package_list=package.list, 
+        init_fn_name=init.fn.name,
+        run_fn_name=run.fn.name,
+        leftovers=leftovers
     )
 }
 
@@ -58,13 +69,25 @@ launch_plumber <- function(init_fn_name, init_params, run_fn_name) {
             )
             list(predictions=predictions)
         }) %>%
-        pr_run(port = 8080) # TODO: control with env variable
+        pr_run(port = 8080)
+}
+
+launch_training <- function(run_fn_name, args) {
+    call_namespace_fn(run_fn_name, args)
 }
 
 main <- function() {
     args <- parse_bootstrap_args()
-    install_user_package(args$package)
-    call_namespace_fn(args$fn_name, args$leftovers)
+    print(paste('Got args: ', args, sep='\n'))
+    print('Starting package installation')
+    sapply(args$package_list, FUN=install_user_package)
+    if (args$container_mode == "predict") {
+        print("Starting prediction server")
+        launch_plumber(args$init_fn_name, args$leftovers, args$run_fn_name)
+    } else {
+        print("Starting training script")
+        launch_training(args$run_fn_name, args$leftovers)
+    }
 }
 
 main()
