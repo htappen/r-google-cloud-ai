@@ -4,10 +4,10 @@ job_bucket="gs://`gcloud config get-value project`"
 
 job_bucket="gs://ht-cmle-training"
 
-train_pkg="$job_bucket/r/example.tar.gz"
+train_pkg="$job_bucket/r/train_example.tar.gz"
 
-tar -czvf example.tar.gz package/
-gsutil cp example.tar.gz $train_pkg
+tar -czvf train_example.tar.gz train/package/
+gsutil cp train_example.tar.gz $train_pkg
 
 echo "
 workerPoolSpecs:
