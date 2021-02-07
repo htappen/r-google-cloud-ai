@@ -1,4 +1,4 @@
-if [[ -z "$1" ]] && [[ $1 =~ ^(predict|train)$ ]]; then
+if [[ -n "$1" ]] && [[ $1 =~ ^(predict|train)$ ]]; then
     echo "Starting bootstrap script..."
     Rscript /root/bootstrap.R "$@"
 else

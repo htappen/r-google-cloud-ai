@@ -18,14 +18,20 @@ parse_bootstrap_args <- function() {
     all.args <- commandArgs(trailingOnly=TRUE)
     container.mode <- tolower(all.args[1])
     package.list <- strsplit(all.args[2], ',')
+    args.len <- length(all.args)
+    leftovers <- NA
     if (container.mode == "predict") {
-        init.fn.name <- all.args[2]
-        run.fn.name <- all.args[3]
-        leftovers <- all.args[4:length(all.args)]
+        init.fn.name <- all.args[3]
+        run.fn.name <- all.args[4]
+        if (args.len >= 5) {
+            leftovers <- all.args[5:length(all.args)]
+        }
     } else {
         init.fn.name <- NA
-        run.fn.name <- all.args[2]
-        leftovers <- all.args[3:length(all.args)]
+        run.fn.name <- all.args[3]
+        if (args.len >= 4) {
+            leftovers <- all.args[4:length(all.args)]
+        }
     }
     list(
         container_mode=container.mode,
@@ -78,7 +84,7 @@ launch_training <- function(run_fn_name, args) {
 
 main <- function() {
     args <- parse_bootstrap_args()
-    print(paste('Got args: ', args, sep='\n'))
+    print(paste('Got args: ', args))
     print('Starting package installation')
     sapply(args$package_list, FUN=install_user_package)
     if (args$container_mode == "predict") {

@@ -31,8 +31,9 @@ ENV DISABLE_AUTH true
 
 # Add dependencies for the bootstrap files
 RUN Rscript \
-    -e 'install.packages(c("stringr", "plumber", "jsonlite"))'
+    -e 'install.packages(c("stringr", "plumber"))'
 
+# Set up container boot
 COPY startup.sh /root/startup.sh
 COPY bootstrap.R /root/bootstrap.R
 
