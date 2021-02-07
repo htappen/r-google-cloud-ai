@@ -6,7 +6,7 @@ job_bucket="gs://ht-cmle-training"
 
 train_pkg="$job_bucket/r/train_example.tar.gz"
 
-tar -czvf train_example.tar.gz train/package/
+tar -czvf train_example.tar.gz training/
 gsutil cp train_example.tar.gz $train_pkg
 
 echo "
@@ -23,6 +23,6 @@ baseOutputDirectory:
   outputUriPrefix: $job_bucket/r_train/$jname
 " > "/tmp/train.yaml"
 
-gcloud beta ai custom-jobs create training r_$jname \
-    --region us-central1 \
-    --config=/tmp/train.yaml
+#gcloud beta ai custom-jobs create training r_$jname \
+#    --region us-central1 \
+#    --config=/tmp/train.yaml

@@ -37,4 +37,5 @@ RUN Rscript \
 COPY bootstrap.R /root/bootstrap.R
 
 WORKDIR /root
+ENTRYPOINT ["/bin/bash", "/root/startup.sh"]
 CMD ["/bin/bash", "/root/startup.sh"]
