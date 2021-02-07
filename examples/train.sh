@@ -2,8 +2,6 @@ jname=$(date +%s)
 gcp_project=$(gcloud config get-value project)
 job_bucket="gs://`gcloud config get-value project`"
 
-job_bucket="gs://ht-cmle-training"
-
 train_pkg="$job_bucket/r/train_example.tar.gz"
 
 tar -czvf train_example.tar.gz training/
