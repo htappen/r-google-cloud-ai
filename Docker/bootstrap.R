@@ -75,7 +75,10 @@ launch_plumber <- function(init_fn_name, init_params, run_fn_name) {
             )
             list(predictions=predictions)
         }) %>%
-        pr_run(port = 8080)
+        pr_run(
+            host = "0.0.0.0",
+            port = 8080
+        )
 }
 
 launch_training <- function(run_fn_name, args) {

@@ -1,5 +1,6 @@
 init <- function(args) {
-    download_model(args$model_path)
+    # TODO: error if NULL
+    download_model(args[1])
 }
 
 predict <- function(instances, context) {
@@ -8,7 +9,8 @@ predict <- function(instances, context) {
 }
 
 download_model <- function(gcs_path) {
-    out.path <- paste('/root/model.Rda', file.name, sep='/')
+    # TODO: error if NULL
+    out.path <- '/root/model.Rda'
     cmd <- paste(
       "gsutil cp",
       gcs_path,
