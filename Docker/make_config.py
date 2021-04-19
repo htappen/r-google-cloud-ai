@@ -16,7 +16,7 @@ import uuid
 from base64 import standard_b64encode as b64encode
 
 # These values come from the RStudio open source code
-USERNAME = 'rstudio'
+USERNAME = 'jupyter'
 USERLIST = '9c16856330a7400cbbbba228392a5d83'
 EXPIRES = 'Wed, 30 Dec 2037 23:59:59 GMT'
 

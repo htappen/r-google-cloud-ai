@@ -27,6 +27,7 @@ RUN git clone https://github.com/rocker-org/rocker-versioned2.git /root/rocker/ 
     rm -rf /rocker_scripts /root/rocker
 
 # Only single tenant RStudio is supported. Use Cloud IAM for auth.
+ENV USER jupyter
 ENV DISABLE_AUTH true
 
 # Add dependencies for the bootstrap files
