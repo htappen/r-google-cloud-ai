@@ -4,15 +4,12 @@ FROM gcr.io/deeplearning-platform-release/r-cpu
 RUN \
   apt-get update && \
   apt install -y curl gnupg2 ca-certificates lsb-release && \
-  echo "deb http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
-    | tee /etc/apt/sources.list.d/nginx.list && \
-  curl -fsSL https://nginx.org/keys/nginx_signing.key | apt-key add - && \
+  echo "deb http://openresty.org/package/ubuntu $(lsb_release -sc) main" \
+    | tee /etc/apt/sources.list.d/openresty.list && \
+  curl -fsSL https://openresty.org/package/pubkey.gpg | apt-key add - && \
   apt-get update && \
-  apt-get install -y nginx
-
-COPY nginx.conf.template /root/nginx.conf.template
-COPY make_config.py /root/make_config.py
-    
+  apt-get install -y --no-install-recommends openresty
+ENV PATH "/usr/local/openresty/nginx/sbin:${PATH}"
 EXPOSE 8080
 
 # Install R Studio into the container
@@ -29,7 +26,6 @@ RUN git clone https://github.com/rocker-org/rocker-versioned2.git /root/rocker/ 
 # Only single tenant RStudio is supported. Use Cloud IAM for auth.
 ENV USER jupyter
 ENV DISABLE_AUTH true
-
 # Add dependencies for the bootstrap files
 RUN Rscript \
     -e 'install.packages(c("stringr", "plumber"))'
@@ -37,6 +33,11 @@ RUN Rscript \
 # Set up container boot
 COPY startup.sh /root/startup.sh
 COPY bootstrap.R /root/bootstrap.R
+
+# Configure nginx as a proxy
+COPY cache_cookies.lua /usr/local/openresty/nginx/
+COPY add_cookies.lua /usr/local/openresty/nginx/
+COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /root
 ENTRYPOINT ["/bin/bash", "/root/startup.sh"]

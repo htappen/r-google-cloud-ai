@@ -3,8 +3,7 @@ if [[ -n "$1" ]] && [[ $1 =~ ^(predict|train)$ ]]; then
     Rscript /root/bootstrap.R "$@"
 else
     echo "'predict' or 'train' command not found. Starting notebook"
-    python3 /root/make_config.py
-    nginx
+    nginx -c /etc/nginx/nginx.conf
 
     # Ensure new user packages get saved to the VM, not the container
     # This has to be at runtime since it touches the containing folder
