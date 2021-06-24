@@ -7,7 +7,9 @@ This repo shows you how to create a [custom container](https://cloud.google.com/
 ## How it works
 Google Cloud AI Notebooks set up an inverting proxy that connects your web browser to the notebook instance running in the Cloud. This inverting proxy expects your instance to have a container running JupyterLab listening for requests on 8080, and responding always to a healthcheck on :8080/api/. Additionally, the inverting proxy disallows cookies or custom headers being sent to or from your container.
 
-In order to get RStudio to comply with these requirements, we add an NGINX reverse proxy in front of it. When the container starts, a Python script adds some configuration to NGINX that makes it always respond to the health checks and send the required cookies to RStudio.
+In order to get RStudio to comply with these requirements, we add an NGINX reverse proxy in front of it. This proxy provides two important pieces of functionality:
+1. It responds to the healthcheck
+2. It saves all cookies that RStudio attempts to set and returns them with every request.
 
 ## Instructions
 1. Build the Docker image from the "Docker" directory. Push it to [Google Container Registry](https://cloud.google.com/container-registry). The easiest way to do this is with this command
