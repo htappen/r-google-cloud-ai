@@ -39,6 +39,9 @@ COPY cache_cookies.lua /usr/local/openresty/nginx/
 COPY add_cookies.lua /usr/local/openresty/nginx/
 COPY nginx.conf /etc/nginx/nginx.conf
 
+# Add rwx permissions to nginx configs
+RUN chmod -R 777 /usr/local/openresty
+
 WORKDIR /root
 ENTRYPOINT ["/bin/bash", "/root/startup.sh"]
 CMD ["/bin/bash", "/root/startup.sh"]
